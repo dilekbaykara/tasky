@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Solid background color -->
+    <item android:drawable="@color/splash_background"/>
+
+    <!-- Centered vector logo -->
+    <item android:drawable="@drawable/tasky_splash_logo" />
+</layer-list>
