@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="android:windowBackground">@drawable/tasky_splash_background</item>
+
+    </style>
     <style name="Theme.Tasky" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
