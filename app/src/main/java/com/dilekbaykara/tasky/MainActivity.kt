@@ -1,4 +1,4 @@
-package com.example.tasky
+package com.dilekbaykara.tasky
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.tasky.ui.theme.TaskyTheme
+import com.dilekbaykara.tasky.ui.theme.TaskyTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -36,6 +36,30 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+//
+//    @Composable
+//    fun SimpleFilledTextFieldSample(
+//        mainViewModel: MainViewModel = viewModel()
+//    ) {
+//        val mainUiState by mainViewModel.uiState.collectAsState()
+//        Column(modifier = Modifier.padding(16.dp)) {
+//            TextField(
+//                value = mainUiState.currentName,
+//                singleLine = true,
+//                modifier = Modifier.fillMaxWidth(),
+//                onValueChange = { mainViewModel.updateName(it) },
+//                label = { Text(text = "Enter your Name") },
+//                isError = mainUiState.currentNameErrors.isNotEmpty()
+//            )
+//            mainUiState.currentNameErrors.forEach {
+//                Text(
+//                    modifier = Modifier.padding(vertical = 8.dp),
+//                    text = it,
+//                    color = Color.RED
+//                )
+//            }
+//        }
+//    }
 
 
     @Composable

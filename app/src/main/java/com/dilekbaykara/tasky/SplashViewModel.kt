@@ -1,4 +1,4 @@
-package com.example.tasky
+package com.dilekbaykara.tasky
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

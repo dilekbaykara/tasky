@@ -1,4 +1,4 @@
-package com.example.tasky.ui.theme
+package com.dilekbaykara.tasky.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tasky"
+    namespace = "com.dilekbaykara.tasky"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.tasky"
+        applicationId = "com.dilekbaykara.tasky"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
