@@ -27,54 +27,8 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition { viewModel.isLoading.value }
         setContent {
             TaskyTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
                 }
             }
         }
     }
-//
-//    @Composable
-//    fun SimpleFilledTextFieldSample(
-//        mainViewModel: MainViewModel = viewModel()
-//    ) {
-//        val mainUiState by mainViewModel.uiState.collectAsState()
-//        Column(modifier = Modifier.padding(16.dp)) {
-//            TextField(
-//                value = mainUiState.currentName,
-//                singleLine = true,
-//                modifier = Modifier.fillMaxWidth(),
-//                onValueChange = { mainViewModel.updateName(it) },
-//                label = { Text(text = "Enter your Name") },
-//                isError = mainUiState.currentNameErrors.isNotEmpty()
-//            )
-//            mainUiState.currentNameErrors.forEach {
-//                Text(
-//                    modifier = Modifier.padding(vertical = 8.dp),
-//                    text = it,
-//                    color = Color.RED
-//                )
-//            }
-//        }
-//    }
-
-
-    @Composable
-    fun Greeting(name: String, modifier: Modifier = Modifier) {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-        )
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        TaskyTheme {
-            Greeting("Android")
-        }
-    }
-}
