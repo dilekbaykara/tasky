@@ -2,8 +2,11 @@
 <resources>
 
     <style name="SplashTheme" parent="Theme.SplashScreen">
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/tasky_splash_background</item>
 
     </style>
-    <style name="Theme.Tasky" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Tasky" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>
