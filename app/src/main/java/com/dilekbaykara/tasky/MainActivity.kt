@@ -29,12 +29,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.dilekbaykara.tasky.auth.ui.AuthViewModel
 import com.dilekbaykara.tasky.ui.theme.TaskyTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
-
+    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -75,7 +78,7 @@ class MainActivity : ComponentActivity() {
 
 
     @Composable
-    fun RegistrationSheet(modifier: Modifier) {
+    fun RegistrationSheet(modifier: Modifier, viewModel: AuthViewModel) {
         Column  {
           Surface(
               modifier = Modifier.fillMaxSize(),

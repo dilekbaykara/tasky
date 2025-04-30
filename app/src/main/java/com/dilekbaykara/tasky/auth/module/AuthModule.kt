@@ -1,0 +1,55 @@
+package com.dilekbaykara.tasky.auth.module
+
+import com.dilekbaykara.tasky.auth.AuthRepository
+import com.dilekbaykara.tasky.auth.api.TaskyApi
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AuthModule {
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(@Named("apiKey") apiKey: String): Retrofit {
+        val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("x-api-key", apiKey)
+                    .build()
+                chain.proceed(request)
+            }
+            .build()
+
+        return Retrofit.Builder()
+            .baseUrl("https://tasky.pl-coding.com/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskyApi(retrofit: Retrofit): TaskyApi {
+        return retrofit.create(TaskyApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(api: TaskyApi): AuthRepository {
+        return AuthRepository(api)
+    }
+
+    @Provides
+    @Named("apiKey")
+    fun provideApiKey(): String = "<api_key>"
+
+
+}
