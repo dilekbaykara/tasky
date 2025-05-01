@@ -55,7 +55,8 @@ class MainActivity : ComponentActivity() {
                         )
                         RegistrationSheet(
                             modifier = Modifier
-                                .fillMaxWidth()
+                                .fillMaxWidth(),
+                            viewModel = AuthViewModel
                         )
                     }
                 }
@@ -171,7 +172,6 @@ class MainActivity : ComponentActivity() {
                 .fillMaxWidth().padding(top = 15.dp),
 
                 horizontalArrangement = Arrangement.Center
-
 
         ) {
             Text(
