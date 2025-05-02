@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">tasky</string>
+
+    <string name="api_key">fsdfsdfsdfsdfsdfsdfsdfsdf</string>
 </resources>

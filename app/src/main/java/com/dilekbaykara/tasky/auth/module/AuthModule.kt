@@ -1,10 +1,15 @@
 package com.dilekbaykara.tasky.auth.module
 
+import android.content.Context
+import android.content.res.Resources
+import com.dilekbaykara.tasky.R
+import com.dilekbaykara.tasky.BuildConfig
 import com.dilekbaykara.tasky.auth.AuthRepository
 import com.dilekbaykara.tasky.auth.api.TaskyApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -49,7 +54,5 @@ object AuthModule {
 
     @Provides
     @Named("apiKey")
-    fun provideApiKey(): String = "<api_key>"
-
-
+    fun provideApiKey(): String = BuildConfig.TASKY_API_KEY
 }
