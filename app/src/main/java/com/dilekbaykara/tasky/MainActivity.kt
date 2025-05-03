@@ -1,6 +1,8 @@
 package com.dilekbaykara.tasky
 
+
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -21,6 +23,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,12 +43,18 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 
+
+
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-// Bringing in viewModel
+
+    // Bringing in viewModel
     private val viewModel: SplashViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +86,8 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
+
     @Composable
     fun Header(modifier: Modifier = Modifier) {
         Text(
@@ -87,8 +99,14 @@ class MainActivity : ComponentActivity() {
             modifier = modifier
 
 
+
+
         )
     }
+
+
+
+
 
 
 
@@ -97,9 +115,23 @@ class MainActivity : ComponentActivity() {
     fun RegistrationSheet(modifier: Modifier, viewModel: AuthViewModel) {
 
 
+
+
+        val regState by viewModel.registerState.collectAsState()
+
+
+        if(regState?.isSuccess == true) {
+            Toast.makeText(LocalContext.current, "YOU REGISTERED", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(LocalContext.current, "YOU FAILED", Toast.LENGTH_LONG).show()
+        }
+
+
         var email by remember { mutableStateOf("") }
         var fullName by remember { mutableStateOf("") }
         var password by remember {  mutableStateOf("") }
+
+
 
 
         Column  {
@@ -115,13 +147,17 @@ class MainActivity : ComponentActivity() {
                     ) {
 
 
+
+
                         UsernameField(fullName) {fullName = it}
                         EmailField(email) {email = it}
                         PasswordField(password) {password = it}
 
 
+
+
                         RegistrationButton {
-                            viewModel
+                            viewModel.registration(fullName, email, password)
                         }
                         AccountMessage(Modifier.padding(10.dp))
                     }
@@ -129,6 +165,8 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 
 
     @Composable
@@ -147,6 +185,8 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
+
     @Composable
     fun EmailField(value: String, onChange:(String) -> Unit){
         TextField(
@@ -161,8 +201,12 @@ class MainActivity : ComponentActivity() {
                 .fillMaxWidth()
 
 
+
+
         )
     }
+
+
 
 
     @Composable
@@ -181,6 +225,8 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
+
     @Composable
     fun RegistrationButton(onClick: () -> Unit){
         Button(modifier = Modifier
@@ -194,9 +240,13 @@ class MainActivity : ComponentActivity() {
     }
 
 
+
+
     @Composable
     fun AccountMessage(
         modifier: Modifier
+
+
 
 
     ) {
@@ -206,7 +256,11 @@ class MainActivity : ComponentActivity() {
                 .padding(top = 15.dp),
 
 
+
+
             horizontalArrangement = Arrangement.Center
+
+
 
 
         ) {
@@ -214,6 +268,8 @@ class MainActivity : ComponentActivity() {
                 text = "ALREADY HAVE AN ACCOUNT? ",
                 color = Color.Gray,
                 fontWeight = FontWeight.Bold
+
+
 
 
             )

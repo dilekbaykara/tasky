@@ -1,5 +1,6 @@
 package com.dilekbaykara.tasky.auth.ui
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dilekbaykara.tasky.auth.AuthRepository
@@ -13,18 +14,25 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : ViewModel() {
 
 
+
+
     private val _loginState = MutableStateFlow<Result<LoginResponse>?>(null)
     val loginState: StateFlow<Result<LoginResponse>?> = _loginState.asStateFlow()
 
 
+
+
     private val _registerState = MutableStateFlow<Result<Unit>?>(null)
     val registerState: StateFlow<Result<Unit>?> = _registerState.asStateFlow()
+
+
 
 
     fun login(email: String, password: String) {
