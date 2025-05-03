@@ -54,6 +54,8 @@ class MainActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
 
+    //bringing in MainViewModel?
+    private val mainViewModel: MainViewModel by viewModels()
 
 
 
@@ -131,6 +133,12 @@ class MainActivity : ComponentActivity() {
         var fullName by remember { mutableStateOf("") }
         var password by remember {  mutableStateOf("") }
 
+
+        // Is this a good idea for a toast message or do I keep the condition in the MainViewModel?
+        // Do I add this where get started button is? Where do I put it?
+        if(fullName.length < 4) {
+            Toast.makeText(LocalContext.current, "Please enter more than 4 characters for name", Toast.LENGTH_LONG).show()
+        }
 
 
 
@@ -273,6 +281,7 @@ class MainActivity : ComponentActivity() {
 
 
             )
+            // How do I make this an onclick nav controller to the login page?
             Text(
                 text = "LOG IN",
                 color = Color.Blue,
