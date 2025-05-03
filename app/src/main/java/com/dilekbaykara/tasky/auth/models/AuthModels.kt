@@ -1,18 +1,23 @@
 package com.dilekbaykara.tasky.auth.models
 
-class AuthModels {
-}
+
+import com.google.gson.annotations.SerializedName
+
+
+
 
 data class RegisterRequest (
-    val FullName: String,
-    val Email: String,
-    val Password: String
+    @SerializedName("fullName") val fullName: String,
+    @SerializedName("email") val email: String,
+    @SerializedName("password") val password: String
 )
+
 
 data class LoginRequest (
     val Email: String,
     val Password: String
 )
+
 
 data class LoginResponse (
     val AccessToken: String,
@@ -20,13 +25,16 @@ data class LoginResponse (
     val FullName: String
 )
 
+
 data class RefreshTokenRequest (
     val RefreshToken: String,
     val UserId: String
 )
 
+
 data class AccessTokenResponse (
     val AccessToken: String,
     val ExpirationTimeStamp: Long
+
 
 )
