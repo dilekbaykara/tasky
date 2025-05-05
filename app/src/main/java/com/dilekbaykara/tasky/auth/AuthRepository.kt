@@ -14,9 +14,6 @@ import javax.inject.Inject
 
 class AuthRepository @Inject constructor(private val api: TaskyApi) {
 
-
-
-
     suspend fun register(request: RegisterRequest): Result<Unit> = try {
         Log.e("REQUEST ", "$request")
         val res = api.register(request)
@@ -34,9 +31,6 @@ class AuthRepository @Inject constructor(private val api: TaskyApi) {
         Result.failure(e)
     }
 
-
-
-
     @Provides
     suspend fun refreshToken(request: RefreshTokenRequest): Result<AccessTokenResponse> = try {
         val response = api.refreshAccessToken(request)
@@ -48,18 +42,12 @@ class AuthRepository @Inject constructor(private val api: TaskyApi) {
         Result.failure(e)
     }
 
-
-
-
     suspend fun isTokenValid(accessToken: String): Boolean = try {
         val response = api.authenticate("Bearer $accessToken")
         response.isSuccessful
     } catch (_: Exception) {
         false
     }
-
-
-
 
     suspend fun logout(accessToken: String): Result<Unit> = try {
         val response = api.authenticate("Bearer $accessToken")
@@ -68,9 +56,6 @@ class AuthRepository @Inject constructor(private val api: TaskyApi) {
     } catch (e: Exception) {
         Result.failure(e)
     }
-
-
-
 
     suspend fun login(request: LoginRequest): Result<LoginResponse> = try {
         val response = api.login(request)

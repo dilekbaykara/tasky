@@ -18,7 +18,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
         buildConfigField(
             "String",
             "TASKY_API_KEY",
@@ -49,7 +48,8 @@ android {
 }
 
 dependencies {
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation(libs.core.splashscreen)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
