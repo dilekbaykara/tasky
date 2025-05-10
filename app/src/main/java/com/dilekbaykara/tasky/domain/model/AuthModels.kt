@@ -1,4 +1,4 @@
-package com.dilekbaykara.tasky.auth.models
+package com.dilekbaykara.tasky.domain.model
 
 
 import com.google.gson.annotations.SerializedName

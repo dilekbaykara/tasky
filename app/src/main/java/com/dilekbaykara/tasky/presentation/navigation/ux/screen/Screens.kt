@@ -1,4 +1,4 @@
-package com.dilekbaykara.tasky.navigation.ux.screen
+package com.dilekbaykara.tasky.presentation.navigation.ux.screen
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,12 +15,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.dilekbaykara.tasky.auth.ui.AuthViewModel
-import com.dilekbaykara.tasky.auth.ui.Header
-import com.dilekbaykara.tasky.auth.ui.LoginSheet
-import com.dilekbaykara.tasky.auth.ui.RegistrationSheet
-import java.nio.file.WatchEvent
+import com.dilekbaykara.tasky.presentation.auth.register.AuthViewModel
+import com.dilekbaykara.tasky.presentation.auth.register.Header
+import com.dilekbaykara.tasky.presentation.auth.register.LoginSheet
+import com.dilekbaykara.tasky.presentation.auth.register.RegistrationSheet
 
 @Composable
 fun LoginScreen(

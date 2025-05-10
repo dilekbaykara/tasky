@@ -1,10 +1,10 @@
-package com.dilekbaykara.tasky.auth.api
+package com.dilekbaykara.tasky.data.remote
 
-import com.dilekbaykara.tasky.auth.models.AccessTokenResponse
-import com.dilekbaykara.tasky.auth.models.LoginRequest
-import com.dilekbaykara.tasky.auth.models.LoginResponse
-import com.dilekbaykara.tasky.auth.models.RefreshTokenRequest
-import com.dilekbaykara.tasky.auth.models.RegisterRequest
+import com.dilekbaykara.tasky.domain.model.AccessTokenResponse
+import com.dilekbaykara.tasky.domain.model.LoginRequest
+import com.dilekbaykara.tasky.domain.model.LoginResponse
+import com.dilekbaykara.tasky.domain.model.RefreshTokenRequest
+import com.dilekbaykara.tasky.domain.model.RegisterRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

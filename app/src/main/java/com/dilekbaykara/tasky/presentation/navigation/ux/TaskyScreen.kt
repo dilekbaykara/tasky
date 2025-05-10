@@ -1,4 +1,4 @@
-package com.dilekbaykara.tasky.navigation.ux
+package com.dilekbaykara.tasky.presentation.navigation.ux
 
 sealed class TaskyScreen(val route: String) {
     object Login : TaskyScreen("login")

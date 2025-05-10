@@ -1,20 +1,21 @@
-package com.dilekbaykara.tasky.auth
+package com.dilekbaykara.tasky.domain.repository
 
 
 import android.util.Log
-import com.dilekbaykara.tasky.auth.api.TaskyApi
-import com.dilekbaykara.tasky.auth.models.AccessTokenResponse
-import com.dilekbaykara.tasky.auth.models.LoginRequest
-import com.dilekbaykara.tasky.auth.models.LoginResponse
-import com.dilekbaykara.tasky.auth.models.RefreshTokenRequest
-import com.dilekbaykara.tasky.auth.models.RegisterRequest
+import com.dilekbaykara.tasky.data.remote.TaskyApi
+import com.dilekbaykara.tasky.data.repository.AuthRepository
+import com.dilekbaykara.tasky.domain.model.AccessTokenResponse
+import com.dilekbaykara.tasky.domain.model.LoginRequest
+import com.dilekbaykara.tasky.domain.model.LoginResponse
+import com.dilekbaykara.tasky.domain.model.RefreshTokenRequest
+import com.dilekbaykara.tasky.domain.model.RegisterRequest
 import dagger.Provides
 import javax.inject.Inject
 
 
-class AuthRepository @Inject constructor(private val api: TaskyApi) {
+class AuthRepositoryImpl @Inject constructor(private val api: TaskyApi): AuthRepository {
 
-    suspend fun register(request: RegisterRequest): Result<Unit> = try {
+    override suspend fun register(request: RegisterRequest): Result<Unit> = try {
         Log.e("REQUEST ", "$request")
         val res = api.register(request)
         if (res.isSuccessful) {
@@ -32,7 +33,7 @@ class AuthRepository @Inject constructor(private val api: TaskyApi) {
     }
 
     @Provides
-    suspend fun refreshToken(request: RefreshTokenRequest): Result<AccessTokenResponse> = try {
+   override suspend fun refreshToken(request: RefreshTokenRequest): Result<AccessTokenResponse> = try {
         val response = api.refreshAccessToken(request)
         if(response.isSuccessful) {
             val body = response.body()
@@ -42,14 +43,14 @@ class AuthRepository @Inject constructor(private val api: TaskyApi) {
         Result.failure(e)
     }
 
-    suspend fun isTokenValid(accessToken: String): Boolean = try {
+   override suspend fun isTokenValid(accessToken: String): Boolean = try {
         val response = api.authenticate("Bearer $accessToken")
         response.isSuccessful
     } catch (_: Exception) {
         false
     }
 
-    suspend fun logout(accessToken: String): Result<Unit> = try {
+    override suspend fun logout(accessToken: String): Result<Unit> = try {
         val response = api.authenticate("Bearer $accessToken")
         if(response.isSuccessful) Result.success(Unit)
         else Result.failure(Exception(response.errorBody()?.string()))
@@ -57,7 +58,7 @@ class AuthRepository @Inject constructor(private val api: TaskyApi) {
         Result.failure(e)
     }
 
-    suspend fun login(request: LoginRequest): Result<LoginResponse> = try {
+   override suspend fun login(request: LoginRequest): Result<LoginResponse> = try {
         val response = api.login(request)
         if(response.isSuccessful) {
             val body = response.body()

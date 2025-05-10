@@ -1,10 +1,10 @@
-package com.dilekbaykara.tasky.auth.dialogs
+package com.dilekbaykara.tasky.presentation.auth.error
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import com.dilekbaykara.tasky.auth.ui.Error
+import com.dilekbaykara.tasky.presentation.auth.register.Error
 
 @Composable
 fun ErrorDialog(error: Error, onDismiss: () -> Unit) {

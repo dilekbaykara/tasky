@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,13 +17,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.dilekbaykara.tasky.splash.SplashViewModel
-import com.dilekbaykara.tasky.auth.ui.AuthViewModel
-import com.dilekbaykara.tasky.navigation.ux.TaskyScreen
-import com.dilekbaykara.tasky.navigation.ux.screen.LoginScreen
-import com.dilekbaykara.tasky.navigation.ux.screen.RegistrationScreen
-import com.dilekbaykara.tasky.ui.theme.TaskyTheme
-import com.dilekbaykara.tasky.navigation.ux.screen.MainScreen
+import com.dilekbaykara.tasky.presentation.splash.SplashViewModel
+import com.dilekbaykara.tasky.presentation.auth.register.AuthViewModel
+import com.dilekbaykara.tasky.presentation.navigation.ux.TaskyScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.LoginScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.RegistrationScreen
+import com.dilekbaykara.tasky.presentation.common.theme.TaskyTheme
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.MainScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package com.dilekbaykara.tasky.ui.theme
+package com.dilekbaykara.tasky.presentation.common.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

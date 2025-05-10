@@ -1,12 +1,12 @@
-package com.dilekbaykara.tasky.auth.ui
+package com.dilekbaykara.tasky.presentation.auth.register
 
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dilekbaykara.tasky.auth.AuthRepository
-import com.dilekbaykara.tasky.auth.models.LoginRequest
-import com.dilekbaykara.tasky.auth.models.LoginResponse
-import com.dilekbaykara.tasky.auth.models.RegisterRequest
+import com.dilekbaykara.tasky.domain.repository.AuthRepositoryImpl
+import com.dilekbaykara.tasky.domain.model.LoginRequest
+import com.dilekbaykara.tasky.domain.model.LoginResponse
+import com.dilekbaykara.tasky.domain.model.RegisterRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repository: AuthRepository
+    private val repository: AuthRepositoryImpl
 ) : ViewModel() {
 
     private val _loginState = MutableStateFlow<Result<LoginResponse>?>(null)

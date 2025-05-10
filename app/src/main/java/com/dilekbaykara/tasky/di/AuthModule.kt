@@ -1,9 +1,9 @@
-package com.dilekbaykara.tasky.auth.module
+package com.dilekbaykara.tasky.di
 
 import android.util.Log
 import com.dilekbaykara.tasky.BuildConfig
-import com.dilekbaykara.tasky.auth.AuthRepository
-import com.dilekbaykara.tasky.auth.api.TaskyApi
+import com.dilekbaykara.tasky.domain.repository.AuthRepositoryImpl
+import com.dilekbaykara.tasky.data.remote.TaskyApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,8 +56,8 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(api: TaskyApi): AuthRepository {
-        return AuthRepository(api)
+    fun provideAuthRepository(api: TaskyApi): AuthRepositoryImpl {
+        return AuthRepositoryImpl(api)
     }
 
 
