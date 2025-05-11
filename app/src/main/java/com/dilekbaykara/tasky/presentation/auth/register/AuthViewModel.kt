@@ -26,8 +26,8 @@ class AuthViewModel @Inject constructor(
     private val _registerState = MutableStateFlow<Result<Unit>?>(null)
     val registerState: StateFlow<Result<Unit>?> = _registerState.asStateFlow()
 
-    private val _error = MutableStateFlow<Error>(Error.None)
-    val error: StateFlow<Error> = _error.asStateFlow()
+    private val _error = MutableStateFlow<Error?>(null)
+    val error: StateFlow<Error?> = _error.asStateFlow()
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
@@ -46,7 +46,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun hideErrorDialog() {
-        _error.value = Error.None
+        _error.value = null
     }
 }
 

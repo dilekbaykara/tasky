@@ -8,7 +8,6 @@ import com.dilekbaykara.tasky.presentation.auth.register.Error
 
 @Composable
 fun ErrorDialog(error: Error, onDismiss: () -> Unit) {
-    if(error !is Error.None) {
         AlertDialog(
             onDismissRequest = onDismiss,
             confirmButton = {
@@ -28,4 +27,3 @@ fun ErrorDialog(error: Error, onDismiss: () -> Unit) {
             }
         )
     }
-}

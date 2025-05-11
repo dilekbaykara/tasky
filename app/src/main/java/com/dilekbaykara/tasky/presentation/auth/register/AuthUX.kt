@@ -1,5 +1,6 @@
 package com.dilekbaykara.tasky.presentation.auth.register
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -107,21 +108,25 @@ fun LoginSheet(modifier: Modifier,
 ) {
 
     val context = LocalContext.current
-
+    val errorDialog by viewModel.error.collectAsState()
     val loginState by viewModel.loginState.collectAsState()
-    val shoulShowSuccessDialog = remember { mutableStateOf(false) }
+    val shouldShowSuccessDialog = remember { mutableStateOf(false) }
     var email by remember { mutableStateOf("") }
     var password by remember {  mutableStateOf("") }
 
     LaunchedEffect(loginState) {
         if(loginState?.isSuccess == true) {
-            shoulShowSuccessDialog.value = true
+            shouldShowSuccessDialog.value = true
         } else {
             Toast.makeText(context, "YOU FAILED", Toast.LENGTH_LONG).show()
         }
     }
 
-    if(shoulShowSuccessDialog.value) {
+    errorDialog.let {
+        Log.d("Error Message", "")
+    }
+
+    if(shouldShowSuccessDialog.value) {
         SuccessDialog(title = "Login Successful", "Welcome back, $email", onLoginSuccess)
     }
 
