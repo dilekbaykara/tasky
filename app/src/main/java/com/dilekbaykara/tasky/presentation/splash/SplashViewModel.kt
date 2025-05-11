@@ -1,4 +1,4 @@
-package com.dilekbaykara.tasky
+package com.dilekbaykara.tasky.presentation.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
