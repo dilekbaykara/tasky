@@ -6,7 +6,7 @@ import com.dilekbaykara.tasky.domain.model.AgendaItemType
 import com.dilekbaykara.tasky.presentation.agenda.AgendaItem
 
 class AgendaRepositoryImpl : AgendaRepository {
-    override suspend fun getAgendaItems(date: Long) : List<AgendaItem> {
+    override fun getAgendaItems(date: Long) : List<AgendaItem> {
         return listOf(
             AgendaItem(
                 AgendaItemType.Reminder,

@@ -3,7 +3,7 @@ package com.dilekbaykara.tasky.data.repository
 import com.dilekbaykara.tasky.domain.model.AgendaItem
 
 interface AgendaRepository {
-    suspend fun getAgendaItems(date: Long): List<AgendaItem>
+    fun getAgendaItems(date: Long): List<AgendaItem>
     suspend fun updateAgendaItems(id: String)
     suspend fun deleteAgendaItems()
 
