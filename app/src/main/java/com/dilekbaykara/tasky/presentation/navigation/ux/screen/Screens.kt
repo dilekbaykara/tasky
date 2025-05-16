@@ -30,6 +30,7 @@ fun LoginScreen(
     onRegisterClick: () -> Unit,
     onBackPress: () -> Unit,
     onLoginError: () -> Unit
+
 ) {
     BackHandler {
         onBackPress()
@@ -37,7 +38,8 @@ fun LoginScreen(
     Header(
         modifier = Modifier
             .padding(innerPadding)
-            .padding(top = 60.dp)
+            .padding(top = 60.dp),
+        "Login"
     )
     LoginSheet(
         modifier = Modifier.fillMaxWidth(),
@@ -62,7 +64,7 @@ fun RegistrationScreen(
     Header(
         modifier = Modifier
             .padding(innerPadding)
-            .padding(top = 40.dp)
+            .padding(top = 40.dp), text = String()
     )
     RegistrationSheet(
         modifier = Modifier.fillMaxWidth(),

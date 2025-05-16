@@ -48,6 +48,7 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.compose.material:material-icons-extended:1.3.1")
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation(libs.core.splashscreen)

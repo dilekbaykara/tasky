@@ -3,9 +3,9 @@ package com.dilekbaykara.tasky.domain.repository
 import com.dilekbaykara.tasky.data.repository.AgendaRepository
 import com.dilekbaykara.tasky.domain.model.AgendaItem
 import com.dilekbaykara.tasky.domain.model.AgendaItemType
-import com.dilekbaykara.tasky.presentation.agenda.AgendaItem
+import javax.inject.Inject
 
-class AgendaRepositoryImpl : AgendaRepository {
+class AgendaRepositoryImpl @Inject constructor(): AgendaRepository {
     override fun getAgendaItems(date: Long) : List<AgendaItem> {
         return listOf(
             AgendaItem(
