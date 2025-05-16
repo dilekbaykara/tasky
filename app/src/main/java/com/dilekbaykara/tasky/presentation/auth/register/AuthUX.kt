@@ -13,17 +13,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text2.input.TextObfuscationMode
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -213,6 +214,7 @@ fun LoginSheet(modifier: Modifier,
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsernameField(value: String, onChange:(String) -> Unit ){
     TextField(
@@ -222,12 +224,18 @@ fun UsernameField(value: String, onChange:(String) -> Unit ){
         placeholder = {},
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
         modifier = Modifier
             .padding(bottom = 20.dp, top = 20.dp, start = 15.dp, end = 15.dp)
             .fillMaxWidth()
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailField(value: String, onChange:(String) -> Unit){
     TextField(
@@ -237,12 +245,18 @@ fun EmailField(value: String, onChange:(String) -> Unit){
         placeholder = {},
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
         modifier = Modifier
             .padding(bottom = 16.dp, start = 15.dp, end = 15.dp)
             .fillMaxWidth()
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordField(value: String, onChange:(String) -> Unit){
     var showPassword by remember { mutableStateOf(false) }
@@ -253,6 +267,11 @@ fun PasswordField(value: String, onChange:(String) -> Unit){
         placeholder = {},
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
         modifier = Modifier
             .padding(bottom = 16.dp, start = 15.dp, end = 15.dp)
             .fillMaxWidth(),
