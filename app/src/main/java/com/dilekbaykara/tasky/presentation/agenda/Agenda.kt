@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dilekbaykara.tasky.domain.model.AgendaItem
@@ -74,7 +75,7 @@ fun AgendaItemList(agendaItems : List<AgendaItem>) {
     LazyColumn {
 
         items(agendaItems.size) { index ->
-            Box(modifier = Modifier.padding(15.dp)) {
+            Box(modifier = Modifier.padding(15.dp).border(width = 0.dp, color = Color.Transparent, shape = RoundedCornerShape(30.dp))) {
 
                 AgendaListItem(agendaItems[index])
 
@@ -86,36 +87,54 @@ fun AgendaItemList(agendaItems : List<AgendaItem>) {
 
 }
 
+@Composable
+fun AgendaItemTask(modifier: Modifier = Modifier){
+Box(modifier = Modifier.background(greenColor).border(width = 0.dp, color = Color.Transparent, shape = RoundedCornerShape(10.dp)))
+}
 
-val greenColor = Color(red = 39, green = 159, blue = 112, alpha = 1)
+@Composable
+fun AgendaItemEvent(modifier: Modifier = Modifier){
+    Box(modifier = Modifier.background(lightGreenColor).border(width = 0.dp, color = Color.Transparent, shape = RoundedCornerShape(10.dp)))
+}
 
-val greyColor = Color(red = 242, green = 243, blue = 247, alpha = 1)
+@Composable
+fun AgendaItemReminder(modifier: Modifier = Modifier) {
+    Box(modifier = Modifier.background(greyColor).border(width = 0.dp, color = Color.Transparent, shape = RoundedCornerShape(10.dp)))
+}
 
-val lightGreenColor = Color(red = 202, green = 239, blue = 69, alpha = 1)
+
+val greenColor = Color(red = 39, green = 159, blue = 112, alpha = 200)
+
+val greyColor = Color(red = 242, green = 243, blue = 247, alpha = 200)
+
+val lightGreenColor = Color(red = 202, green = 239, blue = 69, alpha = 200)
 
 
 @Composable
 fun AgendaListItem(agendaItem: AgendaItem) {
 
-    val color = when (agendaItem.type) {
+    when (agendaItem.type) {
         AgendaItemType.Task -> {
-           Color(red = 39, green = 159, blue = 112, alpha = 200)
+         AgendaItemTask(modifier = Modifier)
         }
         AgendaItemType.Event -> {
-            Color(red = 242, green = 243, blue = 247, alpha = 200)
+            AgendaItemEvent(modifier = Modifier)
         }
         else -> {
-            Color(red = 202, green = 239, blue = 69, alpha = 200)
+            AgendaItemReminder()
         }
     }
     Box(
-        Modifier.background(color = color)
-            .fillMaxWidth().padding(25.dp).height(50.dp)
-            .border(width = 0.dp, color = Color.Transparent, shape = RoundedCornerShape(10.dp))
+        Modifier.fillMaxWidth().padding(35.dp).height(50.dp)
+            .border(width = 0.dp, color = Color.Transparent, shape = RoundedCornerShape(10.dp)),
+
     ) {
 
     }
 }
+
+
+
 
 @Composable
 fun AddAgendaItemFab() {
