@@ -21,6 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -51,11 +52,11 @@ import com.dilekbaykara.tasky.presentation.auth.error.SuccessDialog
 fun Header(modifier: Modifier = Modifier, text : String) {
     Text(
         text = AnnotatedString(text = text),
-        color = Color.White,
         fontSize = 30.sp,
         fontStyle = (FontStyle.Normal),
         fontWeight = (FontWeight.Bold),
-        modifier = modifier
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
 
