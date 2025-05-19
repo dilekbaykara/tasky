@@ -2,6 +2,8 @@ package com.dilekbaykara.tasky.presentation.auth.register
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -60,6 +62,79 @@ fun Header(modifier: Modifier = Modifier, text : String) {
     )
 }
 
+// Where is the svg file for the calendar?
+@Composable
+fun CalendarButton(modifier: Modifier = Modifier) {
+    Button(onClick = {}) {
+        Text("Calendar")
+    }
+}
+
+@Composable
+fun Avatar(modifier: Modifier) {
+
+}
+
+@Composable
+fun AgendaDescription(modifier: Modifier = Modifier, text: String) {
+    Text(
+        text = AnnotatedString(text = text),
+        fontSize = 20.sp,
+        fontStyle = (FontStyle.Normal),
+        fontWeight = (FontWeight.Thin),
+        modifier = modifier,
+        style = MaterialTheme.typography.titleSmall
+    )
+}
+
+@Composable
+fun AgendaDateTime(modifier: Modifier = Modifier, text: String) {
+    Text(
+        text = AnnotatedString(text = text),
+        fontSize = 20.sp,
+        fontStyle = (FontStyle.Normal),
+        fontWeight = (FontWeight.Normal),
+        modifier = modifier,
+        style = MaterialTheme.typography.titleSmall
+    )
+}
+
+@Composable
+fun AttendeeButton(modifier: Modifier = Modifier, text: String) {
+    Text(
+        text = AnnotatedString(text = text),
+        fontSize = 15.sp,
+        fontStyle = (FontStyle.Normal),
+        fontWeight = (FontWeight.Normal),
+        modifier = modifier.border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp)).padding(5.dp),
+        style = MaterialTheme.typography.titleSmall
+    )
+}
+
+
+@Composable
+fun DatePickers(modifier: Modifier = Modifier, text : Pair<Char,Int>){
+    Column(modifier = Modifier) {
+        Text(
+            text = AnnotatedString(text = text.first.toString()),
+            fontSize = 20.sp,
+            fontStyle = (FontStyle.Normal),
+            fontWeight = (FontWeight.Bold),
+            modifier = modifier,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        Text(
+            text = AnnotatedString(text = text.second.toString()),
+            fontSize = 20.sp,
+            fontStyle = (FontStyle.Normal),
+            fontWeight = (FontWeight.Bold),
+            modifier = modifier,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
+
 @Composable
 fun RegistrationSheet(modifier: Modifier,
                       viewModel: AuthViewModel,
@@ -94,7 +169,7 @@ fun RegistrationSheet(modifier: Modifier,
 
     Surface(modifier = Modifier.fillMaxSize()
         .padding(top = 30.dp),
-        color = Color.Black) {
+        color = MaterialTheme.colorScheme.inverseSurface) {
 
         Column()  {
         Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)){
@@ -177,11 +252,11 @@ fun LoginSheet(modifier: Modifier,
 
     Surface(modifier = Modifier.fillMaxSize()
         .padding(top = 30.dp),
-        color = Color.Black) {
+        color = MaterialTheme.colorScheme.inverseSurface) {
 
         Column() {
             Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
-                Header(modifier = Modifier.align(Alignment.Center).padding(30.dp), "Welcome Back!")
+                Header(modifier = Modifier.align(Alignment.Center).padding(30.dp),  "Welcome Back!")
             }
             Column {
                 Surface(

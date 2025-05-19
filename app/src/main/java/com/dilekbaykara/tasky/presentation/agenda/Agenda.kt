@@ -3,6 +3,7 @@ package com.dilekbaykara.tasky.presentation.agenda
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -18,7 +19,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,6 +29,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dilekbaykara.tasky.domain.model.AgendaItem
 import com.dilekbaykara.tasky.domain.model.AgendaItemType
+import com.dilekbaykara.tasky.presentation.auth.register.AgendaDateTime
+import com.dilekbaykara.tasky.presentation.auth.register.AgendaDescription
+import com.dilekbaykara.tasky.presentation.auth.register.AttendeeButton
+import com.dilekbaykara.tasky.presentation.auth.register.Avatar
+import com.dilekbaykara.tasky.presentation.auth.register.CalendarButton
+import com.dilekbaykara.tasky.presentation.auth.register.DatePickers
 import com.dilekbaykara.tasky.presentation.auth.register.Header
 import java.time.LocalDate
 import java.time.temporal.ChronoField
@@ -42,21 +48,25 @@ fun AgendaScreen(viewModel: AgendaViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize()
             .padding(top = 30.dp),
-        color = MaterialTheme.colorScheme.background
+        color = MaterialTheme.colorScheme.inverseSurface
     ) {
         Column {
-            Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally).background(color = MaterialTheme.colorScheme.background)){
-                Row(modifier = Modifier.padding(10.dp)) {
-                    MonthHeader()
+            Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally).background(color = MaterialTheme.colorScheme.inverseSurface)){
+                Row(modifier = Modifier.fillMaxWidth().padding(10.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                    MonthHeader(Modifier)
+                    Box() {
+                        CalendarButton(Modifier.background(Color.White))
+                        Avatar(Modifier)
+                    }
                 }
             }
             Surface(
-                modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface),
+                modifier = Modifier.fillMaxSize().background(Color.Black),
                 shape = RoundedCornerShape(24.dp)
             ) {
                 Column(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
-                    DatePickerCarousel(Modifier.height(80.dp))
-                    DateHeader(Modifier.padding(30.dp))
+                    DatePickerCarousel(Modifier.height(40.dp))
+                    DateHeader()
                     AgendaItemList(
                         agendaItems
                     )
@@ -69,13 +79,18 @@ fun AgendaScreen(viewModel: AgendaViewModel) {
 
 
 
+@Composable
+fun DateText(text : String){
+
+
+}
 
 
 
 
 @Composable
-fun MonthHeader(){
-    Header(modifier = Modifier, "May")
+fun MonthHeader(modifier: Modifier = Modifier){
+    Header(modifier = Modifier.padding(10.dp), "May")
 }
 
 
@@ -86,6 +101,7 @@ fun MonthHeader(){
 fun DatePickerCarousel(modifier: Modifier = Modifier){
     // Move to the viewModel
     val listState = rememberLazyListState()
+    val presentDate = listState
     val today = LocalDate.now()
     val leftBound = today.minusDays(15)
     val rightBound = today.plusDays(15)
@@ -97,28 +113,22 @@ fun DatePickerCarousel(modifier: Modifier = Modifier){
         val dayLetter = it.dayOfWeek.name.first()
         val dayIndex = it.get(ChronoField.DAY_OF_MONTH)
         Pair(dayLetter, dayIndex)
+
     }
-Box(modifier = Modifier.fillMaxWidth()) {
+Box(modifier = Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 20.dp)) {
     Column {
-        // total number of days modulo 7
-
-        // then get the index of that day for days of the week?
-        // first get num of days in month
-        // get current date
-        // lazy list state needs to be initialized to current day
-        // item position is 0 indexed
-
             LazyRow(state = listState) {
                 items(Int.MAX_VALUE) { index ->
                     val actualIndex = index % pairDays.size
                     Box(
                         Modifier
                             .padding(8.dp)
-                            .size(150.dp)
-                            .background(MaterialTheme.colorScheme.surface),
-                        contentAlignment = Alignment.Center
+                            .width(30.dp)
+                            .background(MaterialTheme.colorScheme.surface)
                     ) {
-                        Text(pairDays[actualIndex].toString())
+                        Column(verticalArrangement = Arrangement.Center) {
+                            DatePickers(modifier.align(Alignment.CenterHorizontally), pairDays[actualIndex])
+                        }
                     }
                 }
             }
@@ -130,10 +140,11 @@ Box(modifier = Modifier.fillMaxWidth()) {
 
 
 
+
 @Composable
-fun DateHeader(modifier: Modifier = Modifier){
-    Box(modifier.fillMaxWidth()) {
-        Header(modifier = Modifier, "Today")
+fun DateHeader(){
+    Box() {
+        Header(modifier = Modifier.padding(15.dp), "Today")
     }
 }
 
@@ -161,6 +172,7 @@ fun AgendaItemList(agendaItems : List<AgendaItem>) {
 
 }
 
+//Add in text in these items
 
 @Composable
 fun AgendaListItem(agendaItem: AgendaItem) {
@@ -171,9 +183,20 @@ fun AgendaListItem(agendaItem: AgendaItem) {
         )
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
-            .height(80.dp)
+            .height(150.dp)
     ) {
+        Column(Modifier.fillMaxWidth().padding(15.dp)) {
+            Row(Modifier.fillMaxWidth()) {
+                Header(Modifier.padding(top = 10.dp, bottom = 10.dp), "Placeholder")
+            }
+            AgendaDescription(Modifier.align(Alignment.Start), "Placeholder")
+            Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                AttendeeButton(Modifier.padding(top = 10.dp).align(Alignment.CenterVertically), "Attendee")
+                AgendaDateTime(Modifier.padding(top = 10.dp).align(Alignment.CenterVertically), text = "Placeholder Date")
+            }
+        }
     }
+
 }
 
 
