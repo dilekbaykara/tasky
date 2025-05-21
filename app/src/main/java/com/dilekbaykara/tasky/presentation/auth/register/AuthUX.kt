@@ -34,20 +34,24 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dilekbaykara.tasky.R
 import com.dilekbaykara.tasky.presentation.auth.error.SuccessDialog
 
 @Composable
@@ -63,12 +67,129 @@ fun Header(modifier: Modifier = Modifier, text : String) {
 }
 
 // Where is the svg file for the calendar?
+@Preview
 @Composable
 fun CalendarButton(modifier: Modifier = Modifier) {
-    Button(onClick = {}) {
-        Text("Calendar")
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+    IconButton(
+        onClick = {isToggled = !isToggled}
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.calendar_today),
+            contentDescription = ""
+        )
     }
 }
+
+
+@Preview
+@Composable
+fun MoreButton() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.more_icon),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+        )
+    }
+}
+
+@Composable
+fun DeleteButton() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.trash_icon),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+        )
+    }
+}
+
+
+@Composable
+fun TaskButton() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = if (isToggled) painterResource(R.drawable.done) else painterResource(R.drawable.not_done_icon),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+        )
+    }
+}
+
+@Composable
+fun EditButton() {
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.edit_icon),
+            contentDescription = ""
+        )
+    }
+}
+
+@Composable
+fun CloseOutButton() {
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.x),
+            contentDescription = ""
+        )
+    }
+}
+
+
+@Composable
+fun AddAgendaItemFab(){
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.plus),
+            contentDescription = ""
+        )
+    }
+}
+
+@Composable
+fun NotificationIcon(){
+        Icon(
+            painter = painterResource(R.drawable.notification_icon),
+            contentDescription = ""
+        )
+    }
+
+
+@Composable
+fun CheckMarkIcon(){
+    Icon(
+        painter = painterResource(R.drawable.check),
+        contentDescription = ""
+    )
+}
+
+
 
 @Composable
 fun Avatar(modifier: Modifier) {

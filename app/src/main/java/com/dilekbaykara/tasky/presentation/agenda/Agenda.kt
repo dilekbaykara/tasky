@@ -36,6 +36,7 @@ import com.dilekbaykara.tasky.presentation.auth.register.Avatar
 import com.dilekbaykara.tasky.presentation.auth.register.CalendarButton
 import com.dilekbaykara.tasky.presentation.auth.register.DatePickers
 import com.dilekbaykara.tasky.presentation.auth.register.Header
+import com.dilekbaykara.tasky.presentation.auth.register.MoreButton
 import java.time.LocalDate
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
@@ -188,6 +189,7 @@ fun AgendaListItem(agendaItem: AgendaItem) {
         Column(Modifier.fillMaxWidth().padding(15.dp)) {
             Row(Modifier.fillMaxWidth()) {
                 Header(Modifier.padding(top = 10.dp, bottom = 10.dp), "Placeholder")
+                MoreButton()
             }
             AgendaDescription(Modifier.align(Alignment.Start), "Placeholder")
             Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
