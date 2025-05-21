@@ -17,6 +17,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.dilekbaykara.tasky.presentation.agenda.AgendaViewModel
 import com.dilekbaykara.tasky.presentation.splash.SplashViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.AuthViewModel
 import com.dilekbaykara.tasky.presentation.navigation.ux.TaskyScreen
@@ -29,8 +30,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    // To Do: Reorganize viewModel structure
+
     private val splashViewModel: SplashViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
+    private val agendaViewModel: AgendaViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -75,7 +79,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable(TaskyScreen.Main.route) {
-                                MainScreen { closeAppDialog() }
+                                MainScreen(viewModel = agendaViewModel) { closeAppDialog() }
                             }
                         }
                     }

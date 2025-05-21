@@ -15,6 +15,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dilekbaykara.tasky.presentation.agenda.AgendaScreen
+import com.dilekbaykara.tasky.presentation.agenda.AgendaViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.AuthViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.Header
 import com.dilekbaykara.tasky.presentation.auth.register.LoginSheet
@@ -28,6 +30,7 @@ fun LoginScreen(
     onRegisterClick: () -> Unit,
     onBackPress: () -> Unit,
     onLoginError: () -> Unit
+
 ) {
     BackHandler {
         onBackPress()
@@ -35,7 +38,8 @@ fun LoginScreen(
     Header(
         modifier = Modifier
             .padding(innerPadding)
-            .padding(top = 60.dp)
+            .padding(top = 60.dp),
+        "Login"
     )
     LoginSheet(
         modifier = Modifier.fillMaxWidth(),
@@ -60,7 +64,7 @@ fun RegistrationScreen(
     Header(
         modifier = Modifier
             .padding(innerPadding)
-            .padding(top = 40.dp)
+            .padding(top = 40.dp), text = String()
     )
     RegistrationSheet(
         modifier = Modifier.fillMaxWidth(),
@@ -71,19 +75,20 @@ fun RegistrationScreen(
 }
 
 @Composable
-fun MainScreen(onBackPress: () -> Unit) {
+fun MainScreen(viewModel: AgendaViewModel, onBackPress: () -> Unit) {
 
     BackHandler {
         onBackPress()
     }
 
     Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        Text("Agenda", modifier = Modifier.fillMaxSize(), style =
-        TextStyle(
-            textAlign =  TextAlign.Center,
-            color = Color.Blue,
-            fontSize = 40.sp
-        )
-        )
+        AgendaScreen(viewModel)
+//        Text("Agenda", modifier = Modifier.fillMaxSize(), style =
+//        TextStyle(
+//            textAlign =  TextAlign.Center,
+//            color = Color.Blue,
+//            fontSize = 40.sp
+//        )
+//        )
     }
 }

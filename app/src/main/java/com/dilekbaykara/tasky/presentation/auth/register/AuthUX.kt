@@ -2,7 +2,10 @@ package com.dilekbaykara.tasky.presentation.auth.register
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,11 +14,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,25 +38,102 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.dilekbaykara.tasky.presentation.auth.error.SuccessDialog
 
 @Composable
-fun Header(modifier: Modifier = Modifier) {
+fun Header(modifier: Modifier = Modifier, text : String) {
     Text(
-        text = "Create your account",
-        color = Color.White,
+        text = AnnotatedString(text = text),
         fontSize = 30.sp,
         fontStyle = (FontStyle.Normal),
         fontWeight = (FontWeight.Bold),
-        modifier = modifier
-
+        modifier = modifier,
+        style = MaterialTheme.typography.bodyLarge,
     )
 }
+
+// Where is the svg file for the calendar?
+@Composable
+fun CalendarButton(modifier: Modifier = Modifier) {
+    Button(onClick = {}) {
+        Text("Calendar")
+    }
+}
+
+@Composable
+fun Avatar(modifier: Modifier) {
+
+}
+
+@Composable
+fun AgendaDescription(modifier: Modifier = Modifier, text: String) {
+    Text(
+        text = AnnotatedString(text = text),
+        fontSize = 20.sp,
+        fontStyle = (FontStyle.Normal),
+        fontWeight = (FontWeight.Thin),
+        modifier = modifier,
+        style = MaterialTheme.typography.titleSmall
+    )
+}
+
+@Composable
+fun AgendaDateTime(modifier: Modifier = Modifier, text: String) {
+    Text(
+        text = AnnotatedString(text = text),
+        fontSize = 20.sp,
+        fontStyle = (FontStyle.Normal),
+        fontWeight = (FontWeight.Normal),
+        modifier = modifier,
+        style = MaterialTheme.typography.titleSmall
+    )
+}
+
+@Composable
+fun AttendeeButton(modifier: Modifier = Modifier, text: String) {
+    Text(
+        text = AnnotatedString(text = text),
+        fontSize = 15.sp,
+        fontStyle = (FontStyle.Normal),
+        fontWeight = (FontWeight.Normal),
+        modifier = modifier.border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp)).padding(5.dp),
+        style = MaterialTheme.typography.titleSmall
+    )
+}
+
+
+@Composable
+fun DatePickers(modifier: Modifier = Modifier, text : Pair<Char,Int>){
+    Column(modifier = Modifier) {
+        Text(
+            text = AnnotatedString(text = text.first.toString()),
+            fontSize = 20.sp,
+            fontStyle = (FontStyle.Normal),
+            fontWeight = (FontWeight.Bold),
+            modifier = modifier,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        Text(
+            text = AnnotatedString(text = text.second.toString()),
+            fontSize = 20.sp,
+            fontStyle = (FontStyle.Normal),
+            fontWeight = (FontWeight.Bold),
+            modifier = modifier,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+}
+
 
 @Composable
 fun RegistrationSheet(modifier: Modifier,
@@ -56,7 +145,7 @@ fun RegistrationSheet(modifier: Modifier,
 
     val context = LocalContext.current
 
-    val shoulShowSuccessDialog = remember { mutableStateOf(false) }
+    val shouldShowSuccessDialog = remember { mutableStateOf(false) }
     val regState by viewModel.registerState.collectAsState()
     var email by remember { mutableStateOf("") }
     var fullName by remember { mutableStateOf("") }
@@ -64,7 +153,7 @@ fun RegistrationSheet(modifier: Modifier,
 
     LaunchedEffect(regState) {
         if(regState?.isSuccess == true) {
-            shoulShowSuccessDialog.value = true
+            shouldShowSuccessDialog.value = true
         } else {
             Toast.makeText(context, "YOU FAILED", Toast.LENGTH_LONG).show()
         }
@@ -74,31 +163,43 @@ fun RegistrationSheet(modifier: Modifier,
         Toast.makeText(LocalContext.current, "Please enter more than 4 characters for name", Toast.LENGTH_LONG).show()
     }
 
-    if(shoulShowSuccessDialog.value) {
+    if(shouldShowSuccessDialog.value) {
         SuccessDialog(title = "Registration Successful", "Successfully created account for: $email", onRegistrationSuccess)
     }
 
-    Column  {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.White,
-            shape = RoundedCornerShape(24.dp)
-        ) {
-            Box ( modifier = Modifier.fillMaxSize()) {
-                Column(modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 10.dp, start = 16.dp, end = 16.dp)
-                ) {
-                    UsernameField(fullName) {fullName = it}
-                    EmailField(email) {email = it}
-                    PasswordField(password) {password = it}
-                    AuthButton { viewModel.registration(fullName, email, password) }
-                    AlreadyHaveAnAccountMessage(Modifier.padding(10.dp)) { onLoginClick() }
+    Surface(modifier = Modifier.fillMaxSize()
+        .padding(top = 30.dp),
+        color = MaterialTheme.colorScheme.inverseSurface) {
+
+        Column()  {
+        Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)){
+        Header(modifier = Modifier.align(Alignment.Center).padding(30.dp),"Create your Account")
+        }
+
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = Color.White,
+                shape = RoundedCornerShape(24.dp),
+            ) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier
+                            .align(Alignment.TopCenter)
+                            .padding(top = 25.dp, start = 16.dp, end = 16.dp)
+                    ) {
+                        UsernameField(fullName) { fullName = it }
+                        EmailField(email) { email = it }
+                        PasswordField(password) { password = it }
+                        AuthButton { viewModel.registration(fullName, email, password) }
+                        AlreadyHaveAnAccountMessage(Modifier.padding(10.dp)) { onLoginClick() }
+                    }
                 }
             }
         }
     }
 }
+
+
 
 @Composable
 fun LoginSheet(modifier: Modifier,
@@ -113,6 +214,7 @@ fun LoginSheet(modifier: Modifier,
     val shouldShowSuccessDialog = remember { mutableStateOf(false) }
     var email by remember { mutableStateOf("") }
     var password by remember {  mutableStateOf("") }
+
 
     LaunchedEffect(loginState) {
         if(loginState?.isSuccess == true) {
@@ -148,21 +250,39 @@ fun LoginSheet(modifier: Modifier,
     //        }
     //    }
 
-    Column  {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.White,
-            shape = RoundedCornerShape(24.dp)
-        ) {
-            Box ( modifier = Modifier.fillMaxSize()) {
-                Column(modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 80.dp, start = 16.dp, end = 16.dp)
+    Surface(modifier = Modifier.fillMaxSize()
+        .padding(top = 30.dp),
+        color = MaterialTheme.colorScheme.inverseSurface) {
+
+        Column() {
+            Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
+                Header(modifier = Modifier.align(Alignment.Center).padding(30.dp),  "Welcome Back!")
+            }
+            Column {
+                Surface(
+                    modifier = Modifier.fillMaxSize()
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onLongPress = {
+                                    onLoginSuccess()
+                                }
+                            )
+                        },
+                    color = Color.White,
+                    shape = RoundedCornerShape(24.dp)
                 ) {
-                    EmailField(email) {email = it}
-                    PasswordField(password) {password = it}
-                    AuthButton { viewModel.login(email, password) }
-                    DoNotHaveAnAccountMessage { onRegisterClick() }
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .padding(top = 35.dp, start = 16.dp, end = 16.dp)
+                        ) {
+                            EmailField(email) { email = it }
+                            PasswordField(password) { password = it }
+                            AuthButton { viewModel.login(email, password) }
+                            DoNotHaveAnAccountMessage { onRegisterClick() }
+                        }
+                    }
                 }
             }
         }
@@ -170,6 +290,7 @@ fun LoginSheet(modifier: Modifier,
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsernameField(value: String, onChange:(String) -> Unit ){
     TextField(
@@ -179,12 +300,18 @@ fun UsernameField(value: String, onChange:(String) -> Unit ){
         placeholder = {},
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
         modifier = Modifier
             .padding(bottom = 20.dp, top = 20.dp, start = 15.dp, end = 15.dp)
             .fillMaxWidth()
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailField(value: String, onChange:(String) -> Unit){
     TextField(
@@ -194,14 +321,21 @@ fun EmailField(value: String, onChange:(String) -> Unit){
         placeholder = {},
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
         modifier = Modifier
             .padding(bottom = 16.dp, start = 15.dp, end = 15.dp)
             .fillMaxWidth()
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordField(value: String, onChange:(String) -> Unit){
+    var showPassword by remember { mutableStateOf(false) }
     TextField(
         value = value,
         onValueChange = onChange,
@@ -209,9 +343,42 @@ fun PasswordField(value: String, onChange:(String) -> Unit){
         placeholder = {},
         singleLine = true,
         shape = RoundedCornerShape(10.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
+        ),
         modifier = Modifier
             .padding(bottom = 16.dp, start = 15.dp, end = 15.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        visualTransformation = if (showPassword) {
+
+            VisualTransformation.None
+
+        } else {
+
+            PasswordVisualTransformation()
+
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        trailingIcon = {
+            if (showPassword) {
+                IconButton(onClick = { showPassword = false }) {
+                    Icon(
+                        imageVector = Icons.Filled.Visibility,
+                        contentDescription = "hide_password"
+                    )
+                }
+            } else {
+                IconButton(
+                    onClick = { showPassword = true }) {
+                    Icon(
+                        imageVector = Icons.Filled.VisibilityOff,
+                        contentDescription = "hide_password"
+                    )
+                }
+            }
+        }
     )
 }
 
