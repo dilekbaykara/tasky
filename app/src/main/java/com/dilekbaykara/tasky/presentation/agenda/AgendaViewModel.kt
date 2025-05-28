@@ -9,15 +9,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AgendaViewModel @Inject constructor(
-val agendaRepositoryImpl : AgendaRepositoryImpl
+    val agendaRepositoryImpl : AgendaRepositoryImpl
 ) : ViewModel() {
 
-   private val _agendaItems = MutableStateFlow(getItems())
+    private val _agendaItems = MutableStateFlow(getItems())
     val agendaItems = _agendaItems.asStateFlow()
 
     fun getItems() = agendaRepositoryImpl.getAgendaItems(
-            32
-        )
+        32
+    )
 
 
 }

@@ -66,7 +66,4 @@ object AuthModule {
     fun provideApiKey(): String = BuildConfig.TASKY_API_KEY
 
 
-//    @Provides
-//    @Named("apiKey")
-//    fun provideApiKey(): String = " iGi0PdJTjRnfhdqv"
 }

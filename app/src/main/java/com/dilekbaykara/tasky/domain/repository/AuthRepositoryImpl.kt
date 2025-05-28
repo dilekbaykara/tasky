@@ -33,7 +33,7 @@ class AuthRepositoryImpl @Inject constructor(private val api: TaskyApi): AuthRep
     }
 
     @Provides
-   override suspend fun refreshToken(request: RefreshTokenRequest): Result<AccessTokenResponse> = try {
+    override suspend fun refreshToken(request: RefreshTokenRequest): Result<AccessTokenResponse> = try {
         val response = api.refreshAccessToken(request)
         if(response.isSuccessful) {
             val body = response.body()
@@ -43,7 +43,7 @@ class AuthRepositoryImpl @Inject constructor(private val api: TaskyApi): AuthRep
         Result.failure(e)
     }
 
-   override suspend fun isTokenValid(accessToken: String): Boolean = try {
+    override suspend fun isTokenValid(accessToken: String): Boolean = try {
         val response = api.authenticate("Bearer $accessToken")
         response.isSuccessful
     } catch (_: Exception) {
@@ -58,7 +58,7 @@ class AuthRepositoryImpl @Inject constructor(private val api: TaskyApi): AuthRep
         Result.failure(e)
     }
 
-   override suspend fun login(request: LoginRequest): Result<LoginResponse> = try {
+    override suspend fun login(request: LoginRequest): Result<LoginResponse> = try {
         val response = api.login(request)
         if(response.isSuccessful) {
             val body = response.body()

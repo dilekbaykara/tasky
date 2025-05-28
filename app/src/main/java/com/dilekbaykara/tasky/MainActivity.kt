@@ -1,11 +1,13 @@
 package com.dilekbaykara.tasky
 
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +27,11 @@ import com.dilekbaykara.tasky.presentation.navigation.ux.screen.LoginScreen
 import com.dilekbaykara.tasky.presentation.navigation.ux.screen.RegistrationScreen
 import com.dilekbaykara.tasky.presentation.common.theme.TaskyTheme
 import com.dilekbaykara.tasky.presentation.navigation.ux.screen.MainScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EventDetailScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.TaskDetailScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.ReminderDetailScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EditTaskTitleScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EditTaskDescriptionScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +43,7 @@ class MainActivity : ComponentActivity() {
     private val authViewModel: AuthViewModel by viewModels()
     private val agendaViewModel: AgendaViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -79,7 +87,22 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                             composable(TaskyScreen.Main.route) {
-                                MainScreen(viewModel = agendaViewModel) { closeAppDialog() }
+                                MainScreen(viewModel = agendaViewModel, onBackPress = { closeAppDialog() }, navController = navController)
+                            }
+                            composable(TaskyScreen.EventDetail.route) {
+                                EventDetailScreen()
+                            }
+                            composable(TaskyScreen.TaskDetail.route) {
+                                TaskDetailScreen()
+                            }
+                            composable(TaskyScreen.ReminderDetail.route) {
+                                ReminderDetailScreen()
+                            }
+                            composable(TaskyScreen.EditTaskTitle.route) {
+                                EditTaskTitleScreen(onSave = { /* handle save */ }, onCancel = { /* handle cancel */ }, initialValue = "Project X")
+                            }
+                            composable(TaskyScreen.EditTaskDescription.route) {
+                                EditTaskDescriptionScreen(onSave = { /* handle save */ }, onCancel = { /* handle cancel */ }, initialValue = "Weekly plan\nRole distribution")
                             }
                         }
                     }
