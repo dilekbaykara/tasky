@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" android:maxSdkVersion="36"/>
 
     <application
         android:name=".TaskyApplication"

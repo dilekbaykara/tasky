@@ -1,26 +1,42 @@
 package com.dilekbaykara.tasky.presentation.navigation.ux.screen
 
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.dilekbaykara.tasky.presentation.agenda.AgendaScreen
 import com.dilekbaykara.tasky.presentation.agenda.AgendaViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.AuthViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.Header
 import com.dilekbaykara.tasky.presentation.auth.register.LoginSheet
 import com.dilekbaykara.tasky.presentation.auth.register.RegistrationSheet
+import androidx.navigation.NavController
+import com.dilekbaykara.tasky.presentation.events.EventDetailsPage as RealEventDetailScreen
+import com.dilekbaykara.tasky.presentation.tasks.TaskDetailsPage
+import com.dilekbaykara.tasky.presentation.reminders.ReminderDetailPage
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 @Composable
 fun LoginScreen(
@@ -74,21 +90,73 @@ fun RegistrationScreen(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen(viewModel: AgendaViewModel, onBackPress: () -> Unit) {
+fun MainScreen(viewModel: AgendaViewModel, onBackPress: () -> Unit, navController: NavController) {
 
     BackHandler {
         onBackPress()
     }
 
     Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        AgendaScreen(viewModel)
-//        Text("Agenda", modifier = Modifier.fillMaxSize(), style =
-//        TextStyle(
-//            textAlign =  TextAlign.Center,
-//            color = Color.Blue,
-//            fontSize = 40.sp
-//        )
-//        )
+        AgendaScreen(viewModel, navController)
+    }
+}
+
+@Composable
+fun EventDetailScreen() {
+    RealEventDetailScreen()
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun TaskDetailScreen() {
+    TaskDetailsPage(onClose = {}, onDelete = {})
+}
+
+@Composable
+fun ReminderDetailScreen() {
+    ReminderDetailPage(onDelete = {}, onClose = {})
+}
+
+@Composable
+fun EditTaskTitleScreen(onSave: (String) -> Unit, onCancel: () -> Unit, initialValue: String = "") {
+    var value by remember { mutableStateOf(initialValue) }
+    Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp)) {
+        Text("Edit Title", style = MaterialTheme.typography.titleLarge)
+        Spacer(Modifier.height(24.dp))
+        OutlinedTextField(
+            value = value,
+            onValueChange = { value = it },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
+        )
+        Spacer(Modifier.height(24.dp))
+        Row {
+            Button(onClick = { onSave(value) }) { Text("Save") }
+            Spacer(Modifier.width(16.dp))
+            TextButton(onClick = onCancel) { Text("Cancel") }
+        }
+    }
+}
+
+@Composable
+fun EditTaskDescriptionScreen(onSave: (String) -> Unit, onCancel: () -> Unit, initialValue: String = "") {
+    var value by remember { mutableStateOf(initialValue) }
+    Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp)) {
+        Text("Edit Description", style = MaterialTheme.typography.titleLarge)
+        Spacer(Modifier.height(24.dp))
+        OutlinedTextField(
+            value = value,
+            onValueChange = { value = it },
+            modifier = Modifier.fillMaxWidth().weight(1f),
+            minLines = 5
+        )
+        Spacer(Modifier.height(24.dp))
+        Row {
+            Button(onClick = { onSave(value) }) { Text("Save") }
+            Spacer(Modifier.width(16.dp))
+            TextButton(onClick = onCancel) { Text("Cancel") }
+        }
     }
 }

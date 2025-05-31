@@ -2,7 +2,7 @@ package com.dilekbaykara.tasky.di
 
 import android.util.Log
 import com.dilekbaykara.tasky.BuildConfig
-import com.dilekbaykara.tasky.domain.repository.AuthRepositoryImpl
+import com.dilekbaykara.tasky.data.repository.AuthRepositoryImpl
 import com.dilekbaykara.tasky.data.remote.TaskyApi
 import dagger.Module
 import dagger.Provides
@@ -66,7 +66,4 @@ object AuthModule {
     fun provideApiKey(): String = BuildConfig.TASKY_API_KEY
 
 
-//    @Provides
-//    @Named("apiKey")
-//    fun provideApiKey(): String = " iGi0PdJTjRnfhdqv"
 }

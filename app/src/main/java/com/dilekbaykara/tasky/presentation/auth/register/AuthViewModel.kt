@@ -3,7 +3,7 @@ package com.dilekbaykara.tasky.presentation.auth.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dilekbaykara.tasky.domain.repository.AuthRepositoryImpl
+import com.dilekbaykara.tasky.data.repository.AuthRepositoryImpl
 import com.dilekbaykara.tasky.domain.model.LoginRequest
 import com.dilekbaykara.tasky.domain.model.LoginResponse
 import com.dilekbaykara.tasky.domain.model.RegisterRequest

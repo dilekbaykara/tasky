@@ -12,15 +12,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,27 +41,36 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.dilekbaykara.tasky.R
+import com.dilekbaykara.tasky.domain.model.FabItem
+import com.dilekbaykara.tasky.domain.model.OptionItem
+import com.dilekbaykara.tasky.domain.model.OptionItemType
 import com.dilekbaykara.tasky.presentation.auth.error.SuccessDialog
+
 
 @Composable
 fun Header(modifier: Modifier = Modifier, text : String) {
     Text(
         text = AnnotatedString(text = text),
-        fontSize = 30.sp,
+        fontSize = 20.sp,
         fontStyle = (FontStyle.Normal),
         fontWeight = (FontWeight.Bold),
         modifier = modifier,
@@ -62,18 +78,262 @@ fun Header(modifier: Modifier = Modifier, text : String) {
     )
 }
 
-// Where is the svg file for the calendar?
+
+
+@Preview
 @Composable
 fun CalendarButton(modifier: Modifier = Modifier) {
-    Button(onClick = {}) {
-        Text("Calendar")
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+    IconButton(
+        onClick = {isToggled = !isToggled}
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.calendar_today),
+            contentDescription = "",
+            modifier.height(100.dp)
+        )
     }
 }
 
 @Composable
-fun Avatar(modifier: Modifier) {
+fun AvatarDropDown(modifier: Modifier) {
+    var expanded by remember { mutableStateOf(false) }
+    IconButton(onClick = {expanded = !expanded}) {
+        Icon(
+            painter = painterResource(R.drawable.avatar_bg),
+            contentDescription = ""
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text("Log Out") },
+                onClick = {}
+            )
+        }
+    }
+}
+
+val fabItemList = listOf(
+    FabItem(
+        icon = R.drawable.calendar_today,
+        title = "Event",
+    ),
+    FabItem(
+        icon = R.drawable.done,
+        title = "Task",
+    ),
+    FabItem(
+        icon = R.drawable.notification_icon,
+        title = "Reminder",
+    )
+)
+
+@Composable
+fun TaskyFab(modifier: Modifier = Modifier) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedItem by remember {
+        mutableStateOf(FabItem(R.drawable.calendar_today, "Event"))
+    }
+    FloatingActionButton(
+        onClick = {  expanded = !expanded },
+        modifier = Modifier
+    ) {
+        Icon(Icons.Filled.Add, "Floating action button.")
+    }
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false },
+
+        ) {
+        fabItemList.forEachIndexed {
+                _, _ ->
+
+            DropdownMenuItem(
+                text = {
+                    Row {
+                        Icon(painter = painterResource(R.drawable.calendar_today), contentDescription = "")
+                        Text(OptionItemType.Delete.toString())
+
+                    }
+                },
+                onClick = { /* Do something... */ }
+            )
+
+        }
+    }
+}
+
+
+
+
+
+@Composable
+fun MoreDropdownMenu() {
+    var expanded by remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier
+            .padding(5.dp)
+    ) {
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(painter = painterResource(R.drawable.more_icon), contentDescription = "More Options")
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+
+            ) {
+            DropdownMenuItem(
+                text = { Text(OptionItemType.Open.toString()) },
+                onClick = { /* Do something... */ }
+            )
+            DropdownMenuItem(
+                text = { Text(OptionItemType.Edit.toString()) },
+                onClick = { /* Do something... */ }
+            )
+            DropdownMenuItem(
+                text = { Text(OptionItemType.Delete.toString()) },
+                onClick = { /* Do something... */ }
+            )
+
+        }
+
+    }
 
 }
+
+
+@Composable
+fun OptionItemsList(optionItems : List<OptionItem>) {
+    Box(
+        Modifier
+            .background(MaterialTheme.colorScheme.inverseSurface)
+            .height(120.dp)
+            .border(width = 0.dp, brush = Brush.sweepGradient(), shape = RoundedCornerShape(50.dp))
+    ) {
+        LazyColumn {
+            items(optionItems.size) { index ->
+                Box(
+                    modifier = Modifier
+                        .padding(15.dp)
+                        .background(Color.Transparent)
+                        .wrapContentSize()
+                ) {
+                    OptionListItem(
+                        optionItems[index],
+                        text = "",
+                    )
+                }
+            }
+        }
+
+    }
+}
+
+
+@Composable
+fun OptionListItem(optionItem: OptionItem, text: String){
+    Button(onClick = {}, modifier = Modifier.background(MaterialTheme.colorScheme.inverseSurface)) {
+        Text("")
+    }
+}
+
+
+
+
+@Composable
+fun DeleteButton() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.trash_icon),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+        )
+    }
+}
+
+
+@Composable
+fun TaskButton() {
+    // isToggled initial value should be read from a view model or persistent storage.
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = if (isToggled) painterResource(R.drawable.done) else painterResource(R.drawable.not_done_icon),
+            contentDescription = if (isToggled) "Selected icon button" else "Unselected icon button."
+        )
+    }
+}
+
+@Composable
+fun EditButton() {
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.edit_icon),
+            contentDescription = ""
+        )
+    }
+}
+
+@Composable
+fun CloseOutButton() {
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.x),
+            contentDescription = ""
+        )
+    }
+}
+
+
+@Composable
+fun AddAgendaItemFab(){
+    var isToggled by rememberSaveable { mutableStateOf(false) }
+
+    IconButton(
+        onClick = { isToggled = !isToggled }
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.plus),
+            contentDescription = ""
+        )
+    }
+}
+
+@Composable
+fun NotificationIcon(){
+    Icon(
+        painter = painterResource(R.drawable.notification_icon),
+        contentDescription = ""
+    )
+}
+
+
+@Composable
+fun CheckMarkIcon(){
+    Icon(
+        painter = painterResource(R.drawable.check),
+        contentDescription = ""
+    )
+}
+
+
 
 @Composable
 fun AgendaDescription(modifier: Modifier = Modifier, text: String) {
@@ -81,7 +341,7 @@ fun AgendaDescription(modifier: Modifier = Modifier, text: String) {
         text = AnnotatedString(text = text),
         fontSize = 20.sp,
         fontStyle = (FontStyle.Normal),
-        fontWeight = (FontWeight.Thin),
+        fontWeight = (FontWeight.Normal),
         modifier = modifier,
         style = MaterialTheme.typography.titleSmall
     )
@@ -106,7 +366,9 @@ fun AttendeeButton(modifier: Modifier = Modifier, text: String) {
         fontSize = 15.sp,
         fontStyle = (FontStyle.Normal),
         fontWeight = (FontWeight.Normal),
-        modifier = modifier.border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp)).padding(5.dp),
+        modifier = modifier
+            .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(10.dp))
+            .padding(5.dp),
         style = MaterialTheme.typography.titleSmall
     )
 }
@@ -136,10 +398,11 @@ fun DatePickers(modifier: Modifier = Modifier, text : Pair<Char,Int>){
 
 
 @Composable
-fun RegistrationSheet(modifier: Modifier,
-                      viewModel: AuthViewModel,
-                      onLoginClick: () -> Unit,
-                      onRegistrationSuccess: () -> Unit
+fun RegistrationSheet(
+    modifier: Modifier,
+    viewModel: AuthViewModel,
+    onLoginClick: () -> Unit,
+    onRegistrationSuccess: () -> Unit
 )
 {
 
@@ -167,14 +430,19 @@ fun RegistrationSheet(modifier: Modifier,
         SuccessDialog(title = "Registration Successful", "Successfully created account for: $email", onRegistrationSuccess)
     }
 
-    Surface(modifier = Modifier.fillMaxSize()
+    Surface(modifier = Modifier
+        .fillMaxSize()
         .padding(top = 30.dp),
         color = MaterialTheme.colorScheme.inverseSurface) {
 
         Column()  {
-        Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)){
-        Header(modifier = Modifier.align(Alignment.Center).padding(30.dp),"Create your Account")
-        }
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)){
+                Header(modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(30.dp),"Create your Account")
+            }
 
             Surface(
                 modifier = Modifier.fillMaxSize(),
@@ -233,34 +501,24 @@ fun LoginSheet(modifier: Modifier,
     }
 
 
-    // ERROR STATES: WIP
-    //    val error by viewModel.error.collectAsState()
-    //    var isErrorShowing = remember { mutableStateOf(false) }
-    //    LaunchedEffect(error) {
-    //        isErrorShowing.value = when (error) {
-    //            is Error.Validation -> { true }
-    //            is Error.ApiError -> { true }
-    //            else -> false
-    //        }
-    //    }
-    //
-    //    if(isErrorShowing.value) {
-    //        ErrorDialog(error) {
-    //            viewModel.hideErrorDialog()
-    //        }
-    //    }
 
-    Surface(modifier = Modifier.fillMaxSize()
+    Surface(modifier = Modifier
+        .fillMaxSize()
         .padding(top = 30.dp),
         color = MaterialTheme.colorScheme.inverseSurface) {
 
         Column() {
-            Box(modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)) {
-                Header(modifier = Modifier.align(Alignment.Center).padding(30.dp),  "Welcome Back!")
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)) {
+                Header(modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(30.dp),  "Welcome Back!")
             }
             Column {
                 Surface(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onLongPress = {
