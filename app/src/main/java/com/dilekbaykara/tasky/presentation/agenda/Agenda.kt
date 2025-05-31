@@ -58,7 +58,6 @@ import androidx.navigation.NavController
 import com.dilekbaykara.tasky.presentation.navigation.ux.TaskyScreen
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AgendaScreen(viewModel: AgendaViewModel, navController: NavController) {
     val agendaItems by viewModel.agendaItems.collectAsState()
