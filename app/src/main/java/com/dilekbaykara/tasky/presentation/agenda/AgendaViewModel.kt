@@ -1,7 +1,7 @@
 package com.dilekbaykara.tasky.presentation.agenda
 
 import androidx.lifecycle.ViewModel
-import com.dilekbaykara.tasky.domain.repository.AgendaRepositoryImpl
+import com.dilekbaykara.tasky.data.repository.AgendaRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

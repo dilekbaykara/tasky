@@ -1,6 +1,5 @@
-package com.dilekbaykara.tasky.domain.repository
+package com.dilekbaykara.tasky.data.repository
 
-import com.dilekbaykara.tasky.data.repository.AgendaRepository
 import com.dilekbaykara.tasky.domain.model.AgendaItem
 import com.dilekbaykara.tasky.domain.model.AgendaItemType
 import javax.inject.Inject

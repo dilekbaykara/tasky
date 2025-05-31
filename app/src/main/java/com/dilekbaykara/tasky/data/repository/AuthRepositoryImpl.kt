@@ -1,9 +1,8 @@
-package com.dilekbaykara.tasky.domain.repository
+package com.dilekbaykara.tasky.data.repository
 
 
 import android.util.Log
 import com.dilekbaykara.tasky.data.remote.TaskyApi
-import com.dilekbaykara.tasky.data.repository.AuthRepository
 import com.dilekbaykara.tasky.domain.model.AccessTokenResponse
 import com.dilekbaykara.tasky.domain.model.LoginRequest
 import com.dilekbaykara.tasky.domain.model.LoginResponse
