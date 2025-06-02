@@ -1,6 +1,5 @@
 package com.dilekbaykara.tasky
 
-
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,18 +19,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.dilekbaykara.tasky.presentation.agenda.AgendaViewModel
-import com.dilekbaykara.tasky.presentation.splash.SplashViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.AuthViewModel
-import com.dilekbaykara.tasky.presentation.navigation.ux.TaskyScreen
-import com.dilekbaykara.tasky.presentation.navigation.ux.screen.LoginScreen
-import com.dilekbaykara.tasky.presentation.navigation.ux.screen.RegistrationScreen
 import com.dilekbaykara.tasky.presentation.common.theme.TaskyTheme
-import com.dilekbaykara.tasky.presentation.navigation.ux.screen.MainScreen
-import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EventDetailScreen
-import com.dilekbaykara.tasky.presentation.navigation.ux.screen.TaskDetailScreen
-import com.dilekbaykara.tasky.presentation.navigation.ux.screen.ReminderDetailScreen
-import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EditTaskTitleScreen
+import com.dilekbaykara.tasky.presentation.events.PhotoDetailPage
+import com.dilekbaykara.tasky.presentation.events.PhotoViewModel
+import com.dilekbaykara.tasky.presentation.navigation.ux.TaskyScreen
 import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EditTaskDescriptionScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EditTaskTitleScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.EventDetailScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.LoginScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.MainScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.RegistrationScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.ReminderDetailScreen
+import com.dilekbaykara.tasky.presentation.navigation.ux.screen.TaskDetailScreen
+import com.dilekbaykara.tasky.presentation.splash.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,6 +43,7 @@ class MainActivity : ComponentActivity() {
     private val splashViewModel: SplashViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
     private val agendaViewModel: AgendaViewModel by viewModels()
+    private val photoViewModel: PhotoViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,19 +55,22 @@ class MainActivity : ComponentActivity() {
             TaskyTheme {
                 val navController = rememberNavController()
                 Scaffold(topBar = {}, modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(modifier = Modifier
-                        .background(Color.Black)
-                        .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-
-                        NavHost(navController = navController,
-                            startDestination = TaskyScreen.Login.route) {
+                    Column(
+                        modifier = Modifier
+                            .background(Color.Black)
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        NavHost(
+                            navController = navController,
+                            startDestination = TaskyScreen.Login.route
+                        ) {
                             composable(TaskyScreen.Login.route) {
-                                LoginScreen (
+                                LoginScreen(
                                     innerPadding = innerPadding,
                                     authViewModel = authViewModel,
-                                    onLoginSuccess = { navController.navigate(TaskyScreen.Main.route)},
-                                    onRegisterClick = {navController.navigate(TaskyScreen.Registration.route)},
+                                    onLoginSuccess = { navController.navigate(TaskyScreen.Main.route) },
+                                    onRegisterClick = { navController.navigate(TaskyScreen.Registration.route) },
                                     onLoginError = {},
                                     onBackPress = {
                                         closeAppDialog()
@@ -79,7 +84,7 @@ class MainActivity : ComponentActivity() {
                                     onRegistrationSuccess = {
                                         navController.navigate(TaskyScreen.Main.route)
                                     },
-                                    onLoginClick = {navController.navigate(TaskyScreen.Login.route)},
+                                    onLoginClick = { navController.navigate(TaskyScreen.Login.route) },
                                     onRegistrationError = {},
                                     onBackPress = {
                                         navController.popBackStack()
@@ -90,7 +95,7 @@ class MainActivity : ComponentActivity() {
                                 MainScreen(viewModel = agendaViewModel, onBackPress = { closeAppDialog() }, navController = navController)
                             }
                             composable(TaskyScreen.EventDetail.route) {
-                                EventDetailScreen()
+                                EventDetailScreen(navController, photoViewModel)
                             }
                             composable(TaskyScreen.TaskDetail.route) {
                                 TaskDetailScreen()
@@ -103,6 +108,18 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(TaskyScreen.EditTaskDescription.route) {
                                 EditTaskDescriptionScreen(onSave = { /* handle save */ }, onCancel = { /* handle cancel */ }, initialValue = "Weekly plan\nRole distribution")
+                            }
+                            composable(TaskyScreen.PhotoDetail.route) {
+                                PhotoDetailPage(
+                                    photoViewModel = photoViewModel,
+                                    onBack = { navController.popBackStack() },
+                                    onDelete = {
+                                        photoViewModel.selectedPhotoIndex.value?.let { idx ->
+                                            photoViewModel.removePhotoAt(idx)
+                                        }
+                                    },
+                                    isOffline = false
+                                )
                             }
                         }
                     }
@@ -121,6 +138,4 @@ class MainActivity : ComponentActivity() {
             }.setNegativeButton("Cancel", null)
             .show()
     }
-
 }
-

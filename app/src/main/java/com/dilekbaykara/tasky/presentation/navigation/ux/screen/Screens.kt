@@ -5,41 +5,43 @@ import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.dilekbaykara.tasky.presentation.agenda.AgendaScreen
 import com.dilekbaykara.tasky.presentation.agenda.AgendaViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.AuthViewModel
 import com.dilekbaykara.tasky.presentation.auth.register.Header
 import com.dilekbaykara.tasky.presentation.auth.register.LoginSheet
 import com.dilekbaykara.tasky.presentation.auth.register.RegistrationSheet
-import androidx.navigation.NavController
-import com.dilekbaykara.tasky.presentation.events.EventDetailsPage as RealEventDetailScreen
-import com.dilekbaykara.tasky.presentation.tasks.TaskDetailsPage
+import com.dilekbaykara.tasky.presentation.events.PhotoViewModel
 import com.dilekbaykara.tasky.presentation.reminders.ReminderDetailPage
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import com.dilekbaykara.tasky.presentation.tasks.TaskDetailsPage
+import com.dilekbaykara.tasky.presentation.events.EventDetailsPage as RealEventDetailScreen
 
 @Composable
 fun LoginScreen(
+    modifier: Modifier = Modifier,
     innerPadding: PaddingValues,
     authViewModel: AuthViewModel,
     onLoginSuccess: () -> Unit,
@@ -61,7 +63,7 @@ fun LoginScreen(
         modifier = Modifier.fillMaxWidth(),
         viewModel = authViewModel,
         onRegisterClick = onRegisterClick,
-        onLoginSuccess = onLoginSuccess,
+        onLoginSuccess = onLoginSuccess
     )
 }
 
@@ -80,7 +82,8 @@ fun RegistrationScreen(
     Header(
         modifier = Modifier
             .padding(innerPadding)
-            .padding(top = 40.dp), text = String()
+            .padding(top = 40.dp),
+        text = String()
     )
     RegistrationSheet(
         modifier = Modifier.fillMaxWidth(),
@@ -93,7 +96,6 @@ fun RegistrationScreen(
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen(viewModel: AgendaViewModel, onBackPress: () -> Unit, navController: NavController) {
-
     BackHandler {
         onBackPress()
     }
@@ -103,9 +105,10 @@ fun MainScreen(viewModel: AgendaViewModel, onBackPress: () -> Unit, navControlle
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun EventDetailScreen() {
-    RealEventDetailScreen()
+fun EventDetailScreen(navController: NavController, photoViewModel: PhotoViewModel) {
+    RealEventDetailScreen(navController = navController, photoViewModel = photoViewModel)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
