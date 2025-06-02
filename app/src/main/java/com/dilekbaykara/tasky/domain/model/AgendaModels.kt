@@ -6,7 +6,7 @@ data class AgendaItem(
     val description: String,
     val month: String,
     val date: Long,
-    val time: Long,
+    val time: Long
 )
 
 sealed class AgendaItemType {

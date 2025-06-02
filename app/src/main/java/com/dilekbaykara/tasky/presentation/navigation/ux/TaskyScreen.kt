@@ -9,4 +9,5 @@ sealed class TaskyScreen(val route: String) {
     object ReminderDetail : TaskyScreen("reminder_detail")
     object EditTaskTitle : TaskyScreen("edit_task_title")
     object EditTaskDescription : TaskyScreen("edit_task_description")
+    object PhotoDetail : TaskyScreen("photo_detail")
 }

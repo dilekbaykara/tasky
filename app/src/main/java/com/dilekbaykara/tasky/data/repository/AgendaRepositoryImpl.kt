@@ -4,8 +4,8 @@ import com.dilekbaykara.tasky.domain.model.AgendaItem
 import com.dilekbaykara.tasky.domain.model.AgendaItemType
 import javax.inject.Inject
 
-class AgendaRepositoryImpl @Inject constructor(): AgendaRepository {
-    override fun getAgendaItems(date: Long) : List<AgendaItem> {
+class AgendaRepositoryImpl @Inject constructor() : AgendaRepository {
+    override fun getAgendaItems(date: Long): List<AgendaItem> {
         return listOf(
             AgendaItem(
                 AgendaItemType.Reminder,

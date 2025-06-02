@@ -59,6 +59,7 @@ import androidx.compose.material3.Button
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TaskDetailsPage(
+    modifier: Modifier = Modifier,
     onDelete: () -> Unit,
     onClose: () -> Unit
 ) {
@@ -98,7 +99,9 @@ fun TaskDetailsPage(
     if (showDatePicker) {
         DatePickerDialog(
             context,
-            { _, year, month, dayOfMonth -> date.value = LocalDate.of(year, month + 1, dayOfMonth) },
+            { _, year, month, dayOfMonth ->
+                date.value = LocalDate.of(year, month + 1, dayOfMonth)
+            },
             date.value.year,
             date.value.monthValue - 1,
             date.value.dayOfMonth
@@ -156,128 +159,139 @@ fun TaskDetailsPage(
                 tempDescription = description
                 showDescriptionDialog = true
             }) {
-                description.split("\n").forEach {
-                    Text(it, style = MaterialTheme.typography.bodyMedium)
-                }
-            }
-            Icon(Icons.Default.KeyboardArrowRight, contentDescription = null)
-        }
-
-        if (showTitleDialog) {
-            Dialog(onDismissRequest = { showTitleDialog = false }) {
-                Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp)) {
-                    Text("Edit Title", style = MaterialTheme.typography.titleLarge)
-                    Spacer(Modifier.height(24.dp))
-                    OutlinedTextField(
-                        value = tempTitle,
-                        onValueChange = { tempTitle = it },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(Modifier.height(24.dp))
-                    Row {
-                        Button(onClick = {
-                            title = tempTitle
-                            showTitleDialog = false
-                        }) { Text("Save") }
-                        Spacer(Modifier.width(16.dp))
-                        TextButton(onClick = { showTitleDialog = false }) { Text("Cancel") }
+                Column(
+                    modifier = Modifier.weight(1f).clickable {
+                        tempDescription = description
+                        showDescriptionDialog = true
+                    }
+                ) {
+                    description.split("\n").forEach {
+                        Text(it, style = MaterialTheme.typography.bodyMedium)
                     }
                 }
-            }
-        }
-        if (showDescriptionDialog) {
-            Dialog(onDismissRequest = { showDescriptionDialog = false }) {
-                Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp)) {
-                    Text("Edit Description", style = MaterialTheme.typography.titleLarge)
-                    Spacer(Modifier.height(24.dp))
-                    OutlinedTextField(
-                        value = tempDescription,
-                        onValueChange = { tempDescription = it },
-                        modifier = Modifier.fillMaxWidth().weight(1f),
-                        minLines = 5
-                    )
-                    Spacer(Modifier.height(24.dp))
-                    Row {
-                        Button(onClick = {
-                            description = tempDescription
-                            showDescriptionDialog = false
-                        }) { Text("Save") }
-                        Spacer(Modifier.width(16.dp))
-                        TextButton(onClick = { showDescriptionDialog = false }) { Text("Cancel") }
-                    }
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .background(Color(0xFFF3F4F6), RoundedCornerShape(8.dp))
-                    .clickable { showTimePicker = true }
-                    .padding(12.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = time.value.format(DateTimeFormatter.ofPattern("HH:mm")))
+                Icon(Icons.Default.KeyboardArrowRight, contentDescription = null)
             }
 
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .background(Color(0xFFF3F4F6), RoundedCornerShape(8.dp))
-                    .clickable { showDatePicker = true }
-                    .padding(12.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = date.value.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")))
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        var expanded by remember { mutableStateOf(false) }
-
-        Box {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = true }
-            ) {
-                Icon(Icons.Default.Notifications, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(reminderOption, modifier = Modifier.weight(1f))
-                Icon(Icons.Default.ArrowDropDown, contentDescription = null)
-            }
-
-            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                timeOptions.forEach {
-                    DropdownMenuItem(
-                        text = { Text(it) },
-                        onClick = {
-                            reminderOption = it
-                            expanded = false
-                        },
-                        trailingIcon = {
-                            if (it == reminderOption) Icon(Icons.Default.Check, contentDescription = null)
+            if (showTitleDialog) {
+                Dialog(onDismissRequest = { showTitleDialog = false }) {
+                    Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp)) {
+                        Text("Edit Title", style = MaterialTheme.typography.titleLarge)
+                        Spacer(Modifier.height(24.dp))
+                        OutlinedTextField(
+                            value = tempTitle,
+                            onValueChange = { tempTitle = it },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(Modifier.height(24.dp))
+                        Row {
+                            Button(onClick = {
+                                title = tempTitle
+                                showTitleDialog = false
+                            }) { Text("Save") }
+                            Spacer(Modifier.width(16.dp))
+                            TextButton(onClick = { showTitleDialog = false }) { Text("Cancel") }
                         }
-                    )
+                    }
                 }
             }
+            if (showDescriptionDialog) {
+                Dialog(onDismissRequest = { showDescriptionDialog = false }) {
+                    Column(Modifier.fillMaxSize().background(Color.White).padding(24.dp)) {
+                        Text("Edit Description", style = MaterialTheme.typography.titleLarge)
+                        Spacer(Modifier.height(24.dp))
+                        OutlinedTextField(
+                            value = tempDescription,
+                            onValueChange = { tempDescription = it },
+                            modifier = Modifier.fillMaxWidth().weight(1f),
+                            minLines = 5
+                        )
+                        Spacer(Modifier.height(24.dp))
+                        Row {
+                            Button(onClick = {
+                                description = tempDescription
+                                showDescriptionDialog = false
+                            }) { Text("Save") }
+                            Spacer(Modifier.width(16.dp))
+                            TextButton(onClick = {
+                                showDescriptionDialog = false
+                            }) { Text("Cancel") }
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(Color(0xFFF3F4F6), RoundedCornerShape(8.dp))
+                        .clickable { showTimePicker = true }
+                        .padding(12.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = time.value.format(DateTimeFormatter.ofPattern("HH:mm")))
+                }
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(Color(0xFFF3F4F6), RoundedCornerShape(8.dp))
+                        .clickable { showDatePicker = true }
+                        .padding(12.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = date.value.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")))
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            var expanded by remember { mutableStateOf(false) }
+
+            Box {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { expanded = true }
+                ) {
+                    Icon(Icons.Default.Notifications, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(reminderOption, modifier = Modifier.weight(1f))
+                    Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                }
+
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                    timeOptions.forEach {
+                        DropdownMenuItem(
+                            text = { Text(it) },
+                            onClick = {
+                                reminderOption = it
+                                expanded = false
+                            },
+                            trailingIcon = {
+                                if (it == reminderOption) Icon(
+                                    Icons.Default.Check,
+                                    contentDescription = null
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                text = "DELETE TASK",
+                color = Color.Red,
+                modifier = Modifier
+                    .clickable { onDelete() },
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Text(
-            text = "DELETE TASK",
-            color = Color.Red,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .clickable { onDelete() },
-            style = MaterialTheme.typography.bodyMedium
-        )
     }
 }
