@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -143,13 +144,15 @@ fun AvatarDropDown(
     authViewModel: AuthViewModel? = null,
     onLogout: () -> Unit = {}
 ) {
+    val userName = authViewModel?.getCurrentUserName().toString()
+    var firstLetter = authViewModel?.getCurrentUserName().toString().firstOrNull()
+    val index = userName.indexOf(" ")
+    var secondLetter: String? = if (index == -1) "" else userName.substring(index + 1)
+
     var expanded by remember { mutableStateOf(false) }
-    IconButton(onClick = { expanded = !expanded }) {
-        Icon(
-            painter = painterResource(R.drawable.avatar_bg),
-            tint = Color.Transparent,
-            contentDescription = ""
-        )
+    Button(onClick = { expanded = !expanded }, modifier = Modifier.padding(3.dp), colors = ButtonColors(contentColor = Color.White, containerColor = Color.Green, disabledContentColor = Color.Gray, disabledContainerColor = Color.DarkGray)) {
+        Text("$firstLetter $secondLetter", style = MaterialTheme.typography.displaySmall)
+    }
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
@@ -169,7 +172,7 @@ fun AvatarDropDown(
             )
         }
     }
-}
+
 val fabItemList = listOf(
     FabItem(
         icon = R.drawable.calendar_today,

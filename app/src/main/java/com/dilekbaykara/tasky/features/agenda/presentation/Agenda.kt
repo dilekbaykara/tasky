@@ -157,7 +157,7 @@ fun AgendaScreen(
                             .fillMaxWidth()
                     ) {
                         DatePickerCarousel(
-                            modifier = Modifier.height(40.dp),
+                            modifier = Modifier.height(40.dp).align(Alignment.CenterHorizontally),
                             selectedDate = uiState.selectedDate,
                             onDateSelected = { date -> viewModel.selectDate(date) }
                         )
