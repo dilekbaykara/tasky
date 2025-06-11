@@ -48,7 +48,7 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.compose.material:material-icons-extended:1.3.1")
+    implementation("androidx.compose.material:material-icons-extended:1.3.1")
     implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation(libs.core.splashscreen)
@@ -66,6 +66,19 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.gson)
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    // Room dependencies
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+    // ViewModel and LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+
+    testImplementation("io.mockk:mockk:1.13.9")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
